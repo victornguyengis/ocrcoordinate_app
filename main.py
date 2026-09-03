@@ -15,17 +15,18 @@ def Save_Uploaded_File (File, save_folder):
     with open(save_path, mode='wb') as w:
             w.write(File.getbuffer())
     return
+
 ## set up Layout
 st.set_page_config(
-     page_title="IMAGE-TABLE TO TXT",
+     page_title="IMAGE-TABLE TO OTHERS",
      layout="wide",
      initial_sidebar_state="expanded",)
-prmsContainer = st.experimental_get_query_params()
+
 Main = st.container()
 
 col1, col2 = st.columns((5,5))
 
-Main.header("CONVERT ẢNH TỌA ĐỘ GÓC RANH SANG TXT")
+Main.header("CONVERT ẢNH TỌA ĐỘ GÓC RANH SANG CÁC ĐỊNH DẠNG KHÁC")
 uploaded_file = Main.file_uploader("Chọn ảnh: ")
 if uploaded_file is not None:
     with tempfile.TemporaryDirectory() as tmp:
@@ -59,20 +60,21 @@ if uploaded_file is not None:
                     Test.append('1')
                 n = n +2
             else: break
-        # Save file TXT
-        if T[0] == T[len(T)-2] and T[1] == T[len(T)-1]:
-            if len(T)/len(Test)==2:
-                Text = ""
-                n = 0
-                while n < len(T):
-                    Text = Text + str(T[n] + " " + T[n+1]) + '\n'
-                    n = n = n + 2
-                st.write(Text)
-                st.download_button('TẢI FILE TXT', Text, file_name = "Toado.txt")
-            else: st.warning('Chất lượng ảnh quá kém, đề nghị chụp lại hoặc điền tay')
-        else: st.warning('Ảnh chứa bảng tọa độ của 2 mảnh thửa đất khác nhau, đề nghị nhập tay')
+        st.write(Test)
+        # # Save file TXT
+        # if T[0] == T[len(T)-2] and T[1] == T[len(T)-1]:
+        #     if len(T)/len(Test)==2:
+        #         Text = ""
+        #         n = 0
+        #         while n < len(T):
+        #             Text = Text + str(T[n] + " " + T[n+1]) + '\n'
+        #             n = n = n + 2
+        #         st.write(Text)
+        #         st.download_button('TẢI FILE TXT', Text, file_name = "Toado.txt")
+        #     else: st.warning('Chất lượng ảnh quá kém, đề nghị chụp lại hoặc điền tay')
+        # else: st.warning('Ảnh chứa bảng tọa độ của 2 mảnh thửa đất khác nhau, đề nghị nhập tay')
 
-        col1.header("Ảnh đầu vào")
-        col1.image(image)  
-        col2.header("Ảnh xử lý sơ bộ")
-        col2.image(sharpen)
+        # col1.header("Ảnh đầu vào")
+        # col1.image(image)  
+        # col2.header("Ảnh xử lý sơ bộ")
+        # col2.image(sharpen)
