@@ -8,6 +8,7 @@ import os
 import pandas as pd
 import tempfile
 from pathlib import Path
+import geopandas as gpd
 
 
 def Save_Uploaded_File (File, save_folder):
@@ -60,19 +61,18 @@ if uploaded_file is not None:
                     Test.append('1')
                 n = n +2
             else: break
-        st.write(Test)
-        # # Save file TXT
-        # if T[0] == T[len(T)-2] and T[1] == T[len(T)-1]:
-        #     if len(T)/len(Test)==2:
-        #         Text = ""
-        #         n = 0
-        #         while n < len(T):
-        #             Text = Text + str(T[n] + " " + T[n+1]) + '\n'
-        #             n = n = n + 2
-        #         st.write(Text)
-        #         st.download_button('TẢI FILE TXT', Text, file_name = "Toado.txt")
-        #     else: st.warning('Chất lượng ảnh quá kém, đề nghị chụp lại hoặc điền tay')
-        # else: st.warning('Ảnh chứa bảng tọa độ của 2 mảnh thửa đất khác nhau, đề nghị nhập tay')
+        # Save file TXT
+        if T[0] == T[len(T)-2] and T[1] == T[len(T)-1]:
+            if len(T)/len(Test)==2:
+                Text = ""
+                n = 0
+                while n < len(T):
+                    Text = Text + str(T[n] + " " + T[n+1]) + '\n'
+                    n = n = n + 2
+                st.write(Text)
+                st.download_button('TẢI FILE TXT', Text, file_name = "Toado.txt")
+            else: st.warning('Chất lượng ảnh quá kém, đề nghị chụp lại hoặc điền tay')
+        else: st.warning('Ảnh chứa bảng tọa độ của 2 mảnh thửa đất khác nhau, đề nghị nhập tay')
 
         # col1.header("Ảnh đầu vào")
         # col1.image(image)  
