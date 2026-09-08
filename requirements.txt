@@ -1,4 +1,3 @@
-easyocr
 numpy
 opencv_python_headless
 pandas
@@ -6,3 +5,5 @@ Pillow
 streamlit
 geopandas
 shapely
+paddleocr
+ezdxf
