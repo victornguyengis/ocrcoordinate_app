@@ -32,7 +32,7 @@ st.set_page_config(
 
 Main = st.container()
 
-Main.header("CONVERT ẢNH TỌA ĐỘ GÓC RANH SANG CÁC ĐỊNH DẠNG KHÁC")
+Main.header("TRÍCH XUẤT HÌNH ẢNH BẢNG TỌA ĐỘ GÓC RANH SANG ĐỊNH DẠNG AUTOCAD (DXF)")
 
 if "converted" not in st.session_state:
     st.session_state.converted = False
@@ -64,7 +64,6 @@ if uploaded_files:
         )
         out = []
         with tempfile.TemporaryDirectory() as tmp:
-
             for uploaded_file in uploaded_files:
                 Save_Uploaded_File(uploaded_file, tmp)
                 image = cv2.imread(f"{tmp}/{uploaded_file.name}")
@@ -81,27 +80,21 @@ if uploaded_files:
                     scores = res['rec_scores']
 
                     for text, score in zip(texts, scores):
-                        # Chỉ giữ số và dấu .
-                        if all(c in '0123456789.' for c in text):
-                            out.append((text, score))
-        
+                        match = re.search(r'[0-9.,]+', text)
+                        if match:
+                            value = match.group()
+                            out.append((value, score))
+
         T = []
         for text, score in out:
             text = text.replace(" ", ".")
             text = text.replace(",", ".")
             try:
-                value = float(text)
-                if len(text)> 7 and len(text) < 11:
+                value = str(round(float(text),2))
+                if len(value)> 7 and len(value) < 11:
                     T.append(text)
             except ValueError:
                 pass
-
-        # Save file TXT
-        if T[0] == T[len(T)-2] and T[1] == T[len(T)-1]:
-            T = T
-        else:   
-            T.append(T[0])
-            T.append(T[1])
 
         # Kiểm tra tọa độ có đạt chuẩn hay không (trong phạm vi HCM). Thông báo chất lượng ảnh không tốt
         def is_number(x):
