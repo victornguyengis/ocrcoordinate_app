@@ -62,7 +62,9 @@ if uploaded_files:
             use_doc_unwarping=False,
             use_textline_orientation=False
         )
+
         out = []
+
         with tempfile.TemporaryDirectory() as tmp:
             for uploaded_file in uploaded_files:
                 Save_Uploaded_File(uploaded_file, tmp)
@@ -80,14 +82,15 @@ if uploaded_files:
                     scores = res['rec_scores']
 
                     for text, score in zip(texts, scores):
+                        text = text.replace(" ", "")
                         match = re.search(r'[0-9.,]+', text)
                         if match:
                             value = match.group()
                             out.append((value, score))
 
         T = []
+
         for text, score in out:
-            text = text.replace(" ", ".")
             text = text.replace(",", ".")
             try:
                 value = str(round(float(text),2))
@@ -103,6 +106,7 @@ if uploaded_files:
                 return True
             except:
                 return False
+        
         if len(T) % 2 == 0:
             T = [x.strip() for x in T]
 
@@ -178,4 +182,4 @@ if uploaded_files:
                 on_click="ignore"
             )
 
-        else: st.warning('Chất lượng ảnh quá kém, đề nghị chụp lại')
+        else: st.warning('Trong bảng tọa độ góc ranh có một giá trị bất thường hoặc chất lượng ảnh quá kém, vui lòng kiểm tra lại. Ví dụ : X: 1768088885.48 --> dư nhiều số 8.')
